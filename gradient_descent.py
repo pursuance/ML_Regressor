@@ -1,5 +1,6 @@
 import math
 import numpy.typing as npt
+from graphing import LinearRegressionPlot
 
 def compute_cost(x: npt.NDArray , y: npt.NDArray, w, b):
     cost = 0
@@ -29,7 +30,7 @@ def compute_gradient(x: npt.NDArray , y: npt.NDArray, w, b):
 
     return dj_dw, dj_db
 
-def gradient_descent(x: npt.NDArray , y: npt.NDArray, w, b, num_iterations, alpha):
+def gradient_descent(x: npt.NDArray , y: npt.NDArray, w, b, num_iterations, alpha, labels):
 
     J_history = []
     p_history = []
@@ -48,5 +49,6 @@ def gradient_descent(x: npt.NDArray , y: npt.NDArray, w, b, num_iterations, alph
             print(f"Iteration {i}: Cost {J_history[-1]} ",
                   f"dj_dw: {dj_dw}, dj_db: {dj_db}  ",
                   f"w: {w}, b:{b}")
+            LinearRegressionPlot(x, y, labels, w, b).plot()
  
     return w, b, J_history, p_history
