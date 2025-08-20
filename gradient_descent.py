@@ -2,53 +2,80 @@ import math
 import numpy.typing as npt
 from graphing import LinearRegressionPlot
 
-def compute_cost(x: npt.NDArray , y: npt.NDArray, w, b):
-    cost = 0
-    m = x.shape[0]
+class GradientDescent:
 
-    for i in range(m):
-        f_wb = w*x[i] + b
-        cost = cost + (f_wb - y[i])**2
+    def __init__(self, x: npt.NDArray, y: npt.NDArray, w, b, iterations, alpha, labels):
+        self.x_train = x
+        self.y_train = y
+        self.w_init = w
+        self.b_init = b
+        self.num_iterations = iterations
+        self.alpha = alpha
+        self.labels = labels
+        self.x_normalized = self.normalize_data(x)
+        self.y_normalzied = self.normalize_data(y)
 
-    cost = cost / (2*m)
+    def compute_cost(self, w, b):
+        cost = 0
+        m = self.x_train.shape[0]
 
-    return cost
+        for i in range(m):
+            f_wb = w*self.x_train[i] + b
+            cost = cost + (f_wb - self.y_train[i])**2
 
-def compute_gradient(x: npt.NDArray , y: npt.NDArray, w, b):
+        cost = cost / (2*m)
 
-    m = x.shape[0]
-    dj_dw = 0
-    dj_db = 0
+        return cost
 
-    for i in range(m):
-        f_wb = w*x[i] + b
-        dj_dw = dj_dw + (f_wb - y[i]) * x[i]
-        dj_db = dj_db + (f_wb - y[i])
+    def compute_gradient(self, w, b):
+
+        m = self.x_train.shape[0]
+        dj_dw = 0
+        dj_db = 0
+
+        for i in range(m):
+            f_wb = w*self.x_normalized[i] + b
+            dj_dw = dj_dw + (f_wb - self.y_normalzied[i]) * self.x_normalized[i]
+            dj_db = dj_db + (f_wb - self.y_normalzied[i])
+        
+        dj_dw = dj_dw / m
+        dj_db = dj_db / m
+
+        return dj_dw, dj_db
+
+    def gradient_descent_plot(self):
+
+        w = self.w_init
+        b = self.b_init
+
+        for i in range(self.num_iterations):
+            dj_dw, dj_db = self.compute_gradient(w, b)
+
+            w = w - self.alpha * dj_dw
+            b = b - self.alpha * dj_db
+
+            if i% math.ceil(self.num_iterations/10) == 0:
+                print(f"Iteration {i}: ",
+                    f"dj_dw: {dj_dw}, dj_db: {dj_db}  ",
+                    f"w: {w}, b:{b}")
+                denormalzied_w, denormalized_b = self.denormalize_parameters(w, b)
+                LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalzied_w, denormalized_b).plot()
+
+        denormalized_w, denormalized_b = self.denormalize_parameters(w, b)
+        print(f"Final Parameters: w: {w}, b: {b}")
+        LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalized_w, denormalized_b).plot()
+        # return w, b, J_history, p_history
+
+    def normalize_data(self, data: npt.NDArray):
+        return (data - data.mean(axis=0)) / data.std(axis=0)
     
-    dj_dw = dj_dw / m
-    dj_db = dj_db / m
+    def denormalize_parameters(self, w, b):
+        x_mean = self.x_train.mean()
+        x_std = self.x_train.std()
+        y_mean = self.y_train.mean()
+        y_std = self.y_train.std()
 
-    return dj_dw, dj_db
+        w_denormalized = w * (y_std / x_std)
+        b_denormalized = (b * y_std) + y_mean - (w_denormalized * x_mean)
 
-def gradient_descent(x: npt.NDArray , y: npt.NDArray, w, b, num_iterations, alpha, labels):
-
-    J_history = []
-    p_history = []
-
-    for i in range(num_iterations):
-        dj_dw, dj_db = compute_gradient(x, y, w, b)
-
-        w = w - alpha * dj_dw
-        b = b - alpha * dj_db
-
-        if i < 100001:
-            J_history.append(compute_cost(x, y, w, b))
-            p_history.append([w,b])
-
-        if i% math.ceil(num_iterations/10) == 0:
-            print(f"Iteration {i}: Cost {J_history[-1]} ",
-                  f"dj_dw: {dj_dw}, dj_db: {dj_db}  ",
-                  f"w: {w}, b:{b}")
-            LinearRegressionPlot(x, y, labels, w, b).plot()
- 
-    return w, b, J_history, p_history
+        return w_denormalized, b_denormalized
