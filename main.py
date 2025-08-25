@@ -11,7 +11,7 @@ y_train = data[[labels[1]]].to_numpy()
 
 w_init, b_init = 0, 0
 
-iterations = 1000
+iterations = 10000
 alpha = 0.0001
 
 GradientDescent(x_train, y_train, w_init, b_init, iterations, alpha, labels).gradient_descent_plot()

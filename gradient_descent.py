@@ -1,4 +1,5 @@
 import math
+import numpy as np
 import numpy.typing as npt
 from graphing import LinearRegressionPlot
 
@@ -33,13 +34,11 @@ class GradientDescent:
         dj_dw = 0
         dj_db = 0
 
-        for i in range(m):
-            f_wb = w*self.x_normalized[i] + b
-            dj_dw = dj_dw + (f_wb - self.y_normalzied[i]) * self.x_normalized[i]
-            dj_db = dj_db + (f_wb - self.y_normalzied[i])
-        
-        dj_dw = dj_dw / m
-        dj_db = dj_db / m
+        f_wb = w * self.x_normalized + b
+        error = f_wb - self.y_normalzied
+
+        dj_dw = np.dot(error.T, self.x_normalized) / m
+        dj_db = np.sum(error) / m
 
         return dj_dw, dj_db
 
@@ -62,7 +61,7 @@ class GradientDescent:
                 LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalzied_w, denormalized_b).plot()
 
         denormalized_w, denormalized_b = self.denormalize_parameters(w, b)
-        print(f"Final Parameters: w: {w}, b: {b}")
+        print(f"Final Parameters: w: {denormalized_w}, b: {denormalized_b}")
         LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalized_w, denormalized_b).plot()
         # return w, b, J_history, p_history
 

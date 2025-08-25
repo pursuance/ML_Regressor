@@ -14,6 +14,7 @@ class LinearRegressionPlot:
     def generate_line_values(self):
         x_vals = np.linspace(self.x_values.min(), self.x_values.max(), 100)
         y_vals = self.w * x_vals + self.b
+        y_vals = y_vals.flatten()
 
         return (x_vals, y_vals)
 
