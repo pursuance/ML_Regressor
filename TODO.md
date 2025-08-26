@@ -1,8 +1,9 @@
 # TODO List
 
 ## Features to Implement
-- [ ] Add support for multiple input features in GradientDescent.
-- [ ✔️] Replace loops with NumPy vectorized operations for efficiency.
+- [✔️] Add support for multiple input features in GradientDescent.
+- [ ] Add support for multiple input in graphing.py.
+- [✔️] Replace loops with NumPy vectorized operations for efficiency.
 - [ ] Add unit tests for compute_cost() and compute_gradient().
 - [ ] Improve plotting functionality to handle edge cases.
 
