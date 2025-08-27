@@ -7,7 +7,7 @@ data = pd.read_csv('Car_Price_Prediction.csv')
 
 features = [
     'Mileage',
-    'Year',
+    'Engine Size',
 ]
 
 label = 'Price'
@@ -21,4 +21,4 @@ b_init = 0
 iterations = 10000
 alpha = 0.0001
 
-GradientDescent(x_train, y_train, w_init, b_init, iterations, alpha, features, label).gradient_descent_plot()
+GradientDescent(x_train, y_train, w_init, b_init, iterations, alpha, features, label)

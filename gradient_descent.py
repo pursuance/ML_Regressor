@@ -1,11 +1,11 @@
 import math
 import numpy as np
 import numpy.typing as npt
-from graphing import LinearRegressionPlot
+from graphing import UnivariatePlot
 
 class GradientDescent:
 
-    def __init__(self, x: npt.NDArray, y: npt.NDArray, w, b, iterations, alpha, features, label):
+    def __init__(self, x: npt.NDArray, y: npt.NDArray, w, b, iterations, alpha, features, label, verbose=False):
         self.x_train = x
         self.y_train = y
         self.w_init = w
@@ -13,9 +13,11 @@ class GradientDescent:
         self.num_iterations = iterations
         self.alpha = alpha
         self.features = features
-        self.labels = label
+        self.label = label
+        self.verbose = verbose
         self.x_normalized = self.normalize_data(x)
         self.y_normalized = self.normalize_data(y)
+        self.gradient_descent()
 
     def compute_cost(self, w, b):
         cost = 0
@@ -38,7 +40,7 @@ class GradientDescent:
 
         return dj_dw, dj_db
 
-    def gradient_descent_plot(self):
+    def gradient_descent(self):
 
         w = self.w_init
         b = self.b_init
@@ -49,16 +51,19 @@ class GradientDescent:
             w = w - self.alpha * dj_dw
             b = b - self.alpha * dj_db
 
-            if i% math.ceil(self.num_iterations/10) == 0:
+            if i% math.ceil(self.num_iterations/10) == 0 and self.verbose:
                 print(f"Iteration {i}: ",
                     f"dj_dw: {dj_dw}, dj_db: {dj_db}  ",
                     f"w: {w}, b:{b}")
-                denormalzied_w, denormalized_b = self.denormalize_parameters(w, b)
-                #LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalzied_w, denormalized_b).plot()
-
         denormalized_w, denormalized_b = self.denormalize_parameters(w, b)
         print(f"Final Parameters: w: {denormalized_w}, b: {denormalized_b}")
-        #LinearRegressionPlot(self.x_train, self.y_train, self.labels, denormalized_w, denormalized_b).plot()
+            
+       
+
+        for index, feature in enumerate(self.features):
+            axis_labels = (feature, self.label)
+            UnivariatePlot(self.x_train[:,index], self.y_train, denormalized_w[index], denormalized_b, axis_labels).plot()
+
         # return w, b, J_history, p_history
 
     def normalize_data(self, data: npt.NDArray) -> npt.NDArray:
@@ -74,3 +79,4 @@ class GradientDescent:
         b_denormalized = (b * y_std) + y_mean - np.sum(w_denormalized * x_mean)
 
         return w_denormalized, b_denormalized
+    
