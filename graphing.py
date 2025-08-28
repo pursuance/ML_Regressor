@@ -32,3 +32,17 @@ class UnivariatePlot(LinearRegressionPlot):
         plt.ylabel(self.y_axis_label)
 
         plt.show()
+
+class CostVsIterationsPlot():
+
+    def __init__(self, numberOfIterations, cost):
+        self.iterations = range(numberOfIterations)
+        self.cost = cost
+    
+    def plot(self):
+        plt.scatter(self.iterations, self.cost, color='blue', marker='o')
+
+        plt.xlabel('Number of Iterations')
+        plt.xlabel('Cost')
+
+        plt.show()

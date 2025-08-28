@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import numpy.typing as npt
-from graphing import UnivariatePlot
+from graphing import UnivariatePlot, CostVsIterationsPlot
 
 class GradientDescent:
 
@@ -44,12 +44,16 @@ class GradientDescent:
 
         w = self.w_init
         b = self.b_init
+        J_history = []
 
         for i in range(self.num_iterations):
             dj_dw, dj_db = self.compute_gradient(w, b)
 
             w = w - self.alpha * dj_dw
             b = b - self.alpha * dj_db
+
+            cost = self.compute_cost(w, b)
+            J_history.append(cost)
 
             if i% math.ceil(self.num_iterations/10) == 0 and self.verbose:
                 print(f"Iteration {i}: ",
@@ -64,7 +68,8 @@ class GradientDescent:
             axis_labels = (feature, self.label)
             UnivariatePlot(self.x_train[:,index], self.y_train, denormalized_w[index], denormalized_b, axis_labels).plot()
 
-        # return w, b, J_history, p_history
+        CostVsIterationsPlot(self.num_iterations, J_history).plot()
+
 
     def normalize_data(self, data: npt.NDArray) -> npt.NDArray:
         return (data - data.mean(axis=0)) / data.std(axis=0)

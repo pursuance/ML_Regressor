@@ -18,7 +18,7 @@ y_train = data[[label]].to_numpy().flatten()
 w_init = np.zeros(x_train.shape[1])
 b_init = 0
 
-iterations = 10000
+iterations = 100000
 alpha = 0.0001
 
 GradientDescent(x_train, y_train, w_init, b_init, iterations, alpha, features, label)
