@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from gradient_descent import GradientDescent
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/train', methods=['POST'])
 def train_model():
