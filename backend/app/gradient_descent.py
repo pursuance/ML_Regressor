@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import numpy.typing as npt
-from graphing import UnivariatePlot, CostVsIterationsPlot
+from app.graphing import UnivariatePlot, CostVsIterationsPlot
 
 class GradientDescent:
 
@@ -10,6 +10,8 @@ class GradientDescent:
         self.y_train = y
         self.w_init = w
         self.b_init = b
+        self.w_final = None
+        self.b_final = None
         self.num_iterations = iterations
         self.alpha = alpha
         self.features = features
@@ -59,14 +61,15 @@ class GradientDescent:
                 print(f"Iteration {i}: ",
                     f"dj_dw: {dj_dw}, dj_db: {dj_db}  ",
                     f"w: {w}, b:{b}")
-        denormalized_w, denormalized_b = self.denormalize_parameters(w, b)
-        print(f"Final Parameters: w: {denormalized_w}, b: {denormalized_b}")
+                
+        self.w_final, self.b_final = self.denormalize_parameters(w, b)
+        print(f"Final Parameters: w: {self.w_final}, b: {self.b_final}")
             
        
 
         for index, feature in enumerate(self.features):
             axis_labels = (feature, self.label)
-            UnivariatePlot(self.x_train[:,index], self.y_train, denormalized_w[index], denormalized_b, axis_labels).plot()
+            UnivariatePlot(self.x_train[:,index], self.y_train, self.w_final[index], self.b_final, axis_labels).plot()
 
         CostVsIterationsPlot(self.num_iterations, J_history).plot()
 

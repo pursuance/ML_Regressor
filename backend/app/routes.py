@@ -1,21 +1,29 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from gradient_descent import GradientDescent
+from flask import Flask, request, jsonify, Blueprint
+from app.gradient_descent import GradientDescent
+import numpy as np
 
-app = Flask(__name__)
-CORS(app)
+bp = Blueprint('main', __name__)
 
-@app.route('/api/train', methods=['POST'])
+@bp.route('/api/train', methods=['POST'])
 def train_model():
-    data = request.json
-    x = data['x']
-    y = data['y']
-    w_init = data['w_init']
-    b_init = data['b_init']
-    iterations = data['iterations']
-    alpha = data['alpha']
-    features = data['features']
-    label = data['label']
-    
-    gd = GradientDescent(x, y, w_init, b_init, iterations, alpha, features, label, verbose=False)
-    return jsonify({"message": "Training complete!"})
+    try:
+        data = request.json
+
+        x = np.array(data['x'])
+        y = np.array(data['y'])
+        w_init = np.array(data['w_init'])
+        b_init = data['b_init']
+        iterations = data['iterations']
+        alpha = data['alpha']
+        features = data['features']
+        label = data['label']
+        
+        gd = GradientDescent(x, y, w_init, b_init, iterations, alpha, features, label, verbose=False)
+        return jsonify({
+            "message": "Training complete!",
+            "final_w": gd.w_final.tolist(),
+            "final_b": gd.b_final
+        })
+
+    except Exception as e:
+        return jsonify({"sucess": False, "error": str(e)}), 400
