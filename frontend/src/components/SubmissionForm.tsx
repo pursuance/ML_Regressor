@@ -39,6 +39,7 @@ const SubmissionForm = () => {
 
 	const onSubmit = (values: z.infer<typeof formSchema>) => {
 		console.log(values)
+		submitGradientData(values)
 	}
 
 	return (
