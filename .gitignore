@@ -1,2 +1,5 @@
 #Ignore Python virtual environement
 backend/.venv/
+
+#Ignore environment variables
+front/.env
