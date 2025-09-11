@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from 'zod'
 
-import { submitGradientData } from "@/services/api"
+import { getGradientData } from "@/services/api"
+import { useFinalParametersStore } from "@/store"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,7 +20,7 @@ import {
 } from "@/components/ui/form"
 
 const formSchema = z.object({
-	w_init: z.number(),
+	w_init: z.string(),
 	b_init: z.number(),
 	alpha: z.number(),
 	num_iterations: z.number().int()
@@ -30,17 +31,30 @@ const SubmissionForm = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			w_init: 0,
+			w_init: '0, 0',
 			b_init: 0,
 			alpha: 0.01,
 			num_iterations: 1000
 		}
 	})
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log(values)
-		submitGradientData(values)
+	const setFinalParameters = useFinalParametersStore((state) => state.setFinalParameters)
+
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {		
+		try{
+			const parsedValues = {
+				...values,
+				w_init: values.w_init.split(",").map(Number)
+			}
+			console.log(parsedValues)
+			const finalValues = await getGradientData(parsedValues)
+			console.log("API Response:", finalValues)
+			setFinalParameters(finalValues.final_w, finalValues.final_b)
+		} catch (error) {
+			console.error("Error while submitting data:", error)
+		}
 	}
+
 
 	return (
 		<Form {...form}>
@@ -50,12 +64,12 @@ const SubmissionForm = () => {
 					name="w_init"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Initial b</FormLabel>
+							<FormLabel>Initial w</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
 							<FormDescription>
-								Form Description
+								Enter initial weights as a comma-separated list.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -71,9 +85,6 @@ const SubmissionForm = () => {
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>
-								Form Description
-							</FormDescription>
 							<FormMessage />
 						</FormItem>
 						
@@ -88,9 +99,6 @@ const SubmissionForm = () => {
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>
-								Form Description
-							</FormDescription>
 							<FormMessage />
 						</FormItem>
 						
@@ -105,9 +113,6 @@ const SubmissionForm = () => {
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>
-								Form Description
-							</FormDescription>
 							<FormMessage />
 						</FormItem>
 						

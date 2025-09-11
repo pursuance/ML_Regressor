@@ -20,6 +20,7 @@ class GradientDescent:
         self.x_normalized = self.normalize_data(x)
         self.y_normalized = self.normalize_data(y)
         self.gradient_descent()
+        self.J_history = None
 
     def compute_cost(self, w, b):
         cost = 0
@@ -64,14 +65,15 @@ class GradientDescent:
                 
         self.w_final, self.b_final = self.denormalize_parameters(w, b)
         print(f"Final Parameters: w: {self.w_final}, b: {self.b_final}")
+
+        self.J_history = J_history
             
-       
+        # for index, feature in enumerate(self.features):
+        #     axis_labels = (feature, self.label)
+        #     UnivariatePlot(self.x_train[:,index], self.y_train, self.w_final[index], self.b_final, axis_labels).plot()
 
-        for index, feature in enumerate(self.features):
-            axis_labels = (feature, self.label)
-            UnivariatePlot(self.x_train[:,index], self.y_train, self.w_final[index], self.b_final, axis_labels).plot()
-
-        CostVsIterationsPlot(self.num_iterations, J_history).plot()
+    def costPlot(self):
+        CostVsIterationsPlot(self.num_iterations, self.J_history).plot()
 
 
     def normalize_data(self, data: npt.NDArray) -> npt.NDArray:

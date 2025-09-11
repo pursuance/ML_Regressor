@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
-export const submitGradientData = async (data) => {
+export const getGradientData = async (data) => {
   try {
     const response = await fetch(`${API_BASE_URL}/api/train`, {
       method: "POST",
