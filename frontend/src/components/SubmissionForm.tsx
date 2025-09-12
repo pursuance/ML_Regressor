@@ -49,7 +49,7 @@ const SubmissionForm = () => {
 			console.log(parsedValues)
 			const finalValues = await getGradientData(parsedValues)
 			console.log("API Response:", finalValues)
-			setFinalParameters(finalValues.final_w, finalValues.final_b)
+			setFinalParameters(finalValues.final_w, finalValues.final_b, finalValues.J_history)
 		} catch (error) {
 			console.error("Error while submitting data:", error)
 		}

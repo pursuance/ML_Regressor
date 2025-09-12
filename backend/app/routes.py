@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint
 from app.gradient_descent import GradientDescent
-import numpy as np
 from app.test import generateTestData
 
 bp = Blueprint('main', __name__)
@@ -25,7 +24,8 @@ def train_model():
         return jsonify({
             "message": "Training complete!",
             "final_w": gd.w_final.tolist(),
-            "final_b": gd.b_final
+            "final_b": gd.b_final,
+            "J_history": gd.J_history
         })
 
     except Exception as e:
