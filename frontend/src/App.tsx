@@ -7,7 +7,9 @@ function App() {
 
   return (
     <>
-      <SubmissionForm />
+      <div className="flex m-10 w-1/2">
+        <SubmissionForm />
+      </div>
       {final_w && final_w.map((w, index) => <h1 key={index}>w{index} = {w}</h1>)}
       {final_b && <h1>b = {final_b}</h1>}
     </>
