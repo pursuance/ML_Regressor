@@ -12,6 +12,7 @@ import {
     Title,
     Legend,
 } from "chart.js";
+import type { _DeepPartialObject } from 'node_modules/chart.js/dist/types/utils';
 
 ChartJS.register(
     LineController,
@@ -25,76 +26,112 @@ ChartJS.register(
     Legend
 );
 
+
 const Chart = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null)
+  const chartInstance = useRef<ChartJS | null>(null)
   const { num_iterations, J_history } = useFinalParametersStore()
   const x_values = [...Array(num_iterations)].map((_,i) => i + 1)
 
   useEffect(() => {
     if (!chartRef.current) return
-    const ctx = chartRef.current!.getContext('2d')
-    if (!ctx) return
 
-    const chart = new ChartJS(ctx, {
-      type: 'scatter',
-      data: {
-        labels: x_values,
-        datasets: [
-          {
-            label: "Cost vs. Number of Iterations",
-            data: x_values.map((iteration, index) => ({
-              x: iteration,
-              y: J_history[index],
-            })),
-            backgroundColor: 'red',
-            borderColor: 'rgba(255, 99, 132,0.5)',
-            borderWidth: 2,
-            showLine: true,
-            fill: false,
-            pointRadius: 0.5,
-            tension: 0.4,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Gradient Descent: Cost vs. Number of Iterations',
-          },
+    if (J_history.length > 0 && !chartInstance.current) {
+      const ctx = chartRef.current!.getContext('2d')
+      if (!ctx) return
+
+      const totalDuration = 1500;
+      const delayBetweenPoints = totalDuration / x_values.length;
+      const previousY = (ctx: any) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
+      const animation: any = {
+        x: {
+          type: 'number',
+          easing: 'linear',
+          duration: delayBetweenPoints,
+          from: NaN, // the point is initially skipped
+          delay(ctx: any) {
+            if (ctx.type !== 'data' || ctx.xStarted) {
+              return 0;
+            }
+            ctx.xStarted = true;
+            return ctx.index * delayBetweenPoints;
+          }
         },
-        scales: {
-          x: {
+        y: {
+          type: 'number',
+          easing: 'linear',
+          duration: delayBetweenPoints,
+          from: previousY,
+          delay(ctx: any) {
+            if (ctx.type !== 'data' || ctx.yStarted) {
+              return 0;
+            }
+            ctx.yStarted = true;
+            return ctx.index * delayBetweenPoints;
+          }
+        }
+      };
+
+      chartInstance.current = new ChartJS(ctx, {
+        type: 'line',
+        data: {
+          labels: x_values,
+          datasets: [
+            {
+              label: "Cost vs. Number of Iterations",
+              data: x_values.map((iteration, index) => ({
+                x: iteration,
+                y: J_history[index],
+              })),
+              backgroundColor: 'blue',
+              borderColor: 'blue',
+              borderWidth: 2,
+              showLine: true,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
+            },
             title: {
               display: true,
-              text: 'Number of Iterations',
+              text: 'Gradient Descent: Cost vs. Number of Iterations',
             },
-            beginAtZero: true,
           },
-          y: {
-            title: {
-              display: true,
-              text: "Cost",
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Number of Iterations',
+              },
+              beginAtZero: true,
             },
-            beginAtZero: true,
+            y: {
+              title: {
+                display: true,
+                text: "Cost",
+              },
+              beginAtZero: true,
+            },
           },
+          animation,
         },
-        animation: {
-          duration: 1500,
-          easing: "easeInOutQuad",
-        },
-      },
-    })
+      })
+    }
 
     return () => {
-      chart.destroy()
+      if (chartInstance.current) {
+        chartInstance.current.destroy()
+        chartInstance.current = null
+      }
     }
-  }, [])
+  }, [J_history])
 
   return <canvas ref={chartRef}></canvas>
 }

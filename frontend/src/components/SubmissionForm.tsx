@@ -21,9 +21,9 @@ import {
 
 const formSchema = z.object({
 	w_init: z.string(),
-	b_init: z.number(),
-	alpha: z.number(),
-	num_iterations: z.number().int()
+	b_init: z.coerce.number(),
+	alpha: z.coerce.number(),
+	num_iterations: z.coerce.number().int()
 })
 
 const SubmissionForm = () => {
@@ -46,7 +46,6 @@ const SubmissionForm = () => {
 				...values,
 				w_init: values.w_init.split(",").map(Number)
 			}
-			console.log(parsedValues)
 			const finalValues = await getGradientData(parsedValues)
 			console.log("API Response:", finalValues)
 			setFinalParameters(finalValues.final_w, finalValues.final_b, values.num_iterations, finalValues.J_history)
