@@ -17,7 +17,7 @@ const SelectData = () => {
     }
     
     return (
-      <Button asChild variant='ghost' onClick={onClick}>
+      <Button asChild variant='ghost' onClick={onClick} className='cursor-pointer'>
           <div className='flex flex-col items-center gap-1 w-30 h-30 wrap-normal border-1 rounded-md p-2 text-center'>
             { name }
             <img src="/file-csv-solid-full.svg" height={48} width={48} alt='CSV Icon' />
