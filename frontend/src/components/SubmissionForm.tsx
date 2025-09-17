@@ -21,20 +21,20 @@ import {
 
 const formSchema = z.object({
 	w_init: z.string(),
-	b_init: z.coerce.number(),
-	alpha: z.coerce.number(),
-	num_iterations: z.coerce.number().int()
+	b_init: z.coerce.number<string>(),
+	alpha: z.coerce.number<string>(),
+	num_iterations: z.coerce.number<string>().int()
 })
 
 const SubmissionForm = () => {
 
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			w_init: '0, 0',
-			b_init: 0,
-			alpha: 0.01,
-			num_iterations: 1000
+			b_init: '0',
+			alpha: '0.01',
+			num_iterations: '1000',
 		}
 	})
 
@@ -59,7 +59,7 @@ const SubmissionForm = () => {
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 				<FormField
-					control={form.control}
+					{ ...form.register('w_init') }
 					name="w_init"
 					render={({ field }) => (
 						<FormItem>
@@ -76,7 +76,7 @@ const SubmissionForm = () => {
 					)}
 				/>
 				<FormField
-					control={form.control}
+					{ ...form.register('b_init') }
 					name="b_init"
 					render={({ field }) => (
 						<FormItem>
@@ -90,7 +90,7 @@ const SubmissionForm = () => {
 					)}
 				/>
 				<FormField
-					control={form.control}
+					{ ...form.register('alpha') }
 					name="alpha"
 					render={({ field }) => (
 						<FormItem>
@@ -104,7 +104,7 @@ const SubmissionForm = () => {
 					)}
 				/>
 				<FormField
-					control={form.control}
+					{ ...form.register('num_iterations') }
 					name="num_iterations"
 					render={({ field }) => (
 						<FormItem>

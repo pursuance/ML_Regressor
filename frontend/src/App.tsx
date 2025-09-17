@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import SubmissionForm from "@/components/SubmissionForm"
 import Chart from "@/components/chart"
+import SelectData from "@/components/SelectData"
 import { useFinalParametersStore } from "@/store"
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <>
+      <SelectData />
       <div className="flex flex-row">
         <div className="m-10 w-1/6">
           <SubmissionForm />

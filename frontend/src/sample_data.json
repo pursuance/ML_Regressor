@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Car_Price_Predicition.csv",
+    "cols": [
+      "Make",
+      "Model",
+      "Year",
+      "Engine",
+      "Size",
+      "Mileage",
+      "Fuel",
+      "Type",
+      "Transmission",
+      "Price"
+    ]
+  }
+]

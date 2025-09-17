@@ -21,3 +21,16 @@ export const useFinalParametersStore = create<FinalParametersState>((set) => ({
       J_history,
     }))
 }))
+
+interface DataState {
+  data: CSVData | null;
+  setData: (data: CSVData) => void;
+}
+
+export const useDataStore = create<DataState>((set) => ({
+  data: null,
+  setData: (newData: CSVData) => 
+    set(() => ({
+      data: { name: newData.name, cols: newData.cols }
+    }))
+}))

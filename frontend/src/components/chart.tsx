@@ -1,29 +1,28 @@
 import { useEffect, useRef } from 'react'
 import { useFinalParametersStore } from '@/store'
 import {
-    Chart as ChartJS,
-    LineController,
-    ScatterController,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Tooltip,
-    Title,
-    Legend,
+  Chart as ChartJS,
+  LineController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Title,
+  Legend,
 } from "chart.js";
-import type { _DeepPartialObject } from 'node_modules/chart.js/dist/types/utils';
 
 ChartJS.register(
-    LineController,
-    ScatterController,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Tooltip,
-    Title,
-    Legend
+  LineController,
+  ScatterController,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Title,
+  Legend
 );
 
 
