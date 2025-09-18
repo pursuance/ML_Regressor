@@ -1,29 +1,24 @@
-import { Suspense } from "react"
-import SubmissionForm from "@/components/SubmissionForm"
-import Chart from "@/components/chart"
-import SelectData from "@/components/SelectData"
-import { useFinalParametersStore } from "@/store"
+import ChartComponent from "./components/ChartComponent"
+import ColumnSelectionComponent from "./components/ColumnSelectionComponent"
+import DataSelectionComponent from "./components/DataSelectionComponent"
+import { useDataStore } from "./store"
 
 function App() {
 
-  const { final_w, final_b, J_history } = useFinalParametersStore()
+  const { data } = useDataStore()
 
   return (
-    <>
-      <SelectData />
-      <div className="flex flex-row">
-        <div className="m-10 w-1/6">
-          <SubmissionForm />
-        </div>
-        <div className="w-1/2">
-          <Suspense fallback={<p>Loading...</p>}>
-            {J_history.length > 0 && <Chart />}
-          </Suspense>
-        </div>
-      </div>
-      {final_w && final_w.map((w, index) => <h1 key={index}>w{index} = {w}</h1>)}
-      {final_b && <h1>b = {final_b}</h1>}
-    </>
+    <div className="border-1 m-8 rounded-md">
+      {!data ?
+        <DataSelectionComponent />
+        :
+        <ColumnSelectionComponent />
+      }
+      {
+        data?.selectionComplete &&
+        <ChartComponent />
+      }     
+    </div>
   )
 }
 

@@ -1,10 +1,8 @@
-import sample_data from '@/sample_data.json' with { type: 'json '}
+import sample_data from '@/sample_data.json' with { type: 'json'}
 import { Button } from './ui/button'
 import { useDataStore } from '@/store'
 
-const SelectData = () => {
-
-  const sampleData = sample_data
+const SelectSampleData = () => {
 
   const SampleDataCard = ({ data }: { data: CSVData }) => {
     const name = data.name.replace(/_/g, " ").replace('.csv', "")
@@ -13,7 +11,6 @@ const SelectData = () => {
 
     const onClick = () => {
       setData(data)
-      console.log(data.name)
     }
     
     return (
@@ -26,22 +23,15 @@ const SelectData = () => {
     )
   }
 
-  const { data } = useDataStore()
-
   return (
       <>
-        {
-          data?
-            <div>
-              { data.cols.map((col, index) => <p key={index}>{col}</p>) }
-            </div>
-          :
-             <div>
-              { sampleData.map((data, index) => <SampleDataCard data={data} key={index} />)}
-            </div>
-        }
+        <div>
+          { sample_data.map((data, index) => 
+            <SampleDataCard data={{ ...data, features: [], selectionComplete: false }} key={index} />
+          )}
+        </div>
       </>
     )
 }
 
-export default SelectData
+export default SelectSampleData

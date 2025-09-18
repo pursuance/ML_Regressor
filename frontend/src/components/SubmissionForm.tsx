@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { z } from 'zod'
 
 import { getGradientData } from "@/services/api"
-import { useFinalParametersStore } from "@/store"
+import { useDataStore, useFinalParametersStore } from "@/store"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,13 +38,16 @@ const SubmissionForm = () => {
 		}
 	})
 
-	const setFinalParameters = useFinalParametersStore((state) => state.setFinalParameters)
+	const { data } = useDataStore()
+	const { setFinalParameters } = useFinalParametersStore()
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {		
-		try{
+		try {
 			const parsedValues = {
 				...values,
-				w_init: values.w_init.split(",").map(Number)
+				w_init: values.w_init.split(",").map(Number),
+				features: data?.features,
+				label: data?.label
 			}
 			const finalValues = await getGradientData(parsedValues)
 			console.log("API Response:", finalValues)
@@ -117,7 +120,7 @@ const SubmissionForm = () => {
 						
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<Button className="cursor-pointer" type="submit">Submit</Button>
 			</form>
 		</Form>
 	)

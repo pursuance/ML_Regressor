@@ -15,10 +15,10 @@ def train_model():
         b_init = data['b_init']
         iterations = data['num_iterations']
         alpha = data['alpha']
-        # features = data['features']
-        # label = data['label']
+        features = data['features']
+        label = data['label']
 
-        x, y, features, label = generateTestData()
+        x, y = generateTestData(features, label)
         
         gd = GradientDescent(x, y, w_init, b_init, iterations, alpha, features, label, verbose=False)
         return jsonify({

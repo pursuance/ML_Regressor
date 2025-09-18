@@ -31,6 +31,6 @@ export const useDataStore = create<DataState>((set) => ({
   data: null,
   setData: (newData: CSVData) => 
     set(() => ({
-      data: { name: newData.name, cols: newData.cols }
+      data: newData
     }))
 }))

@@ -2,20 +2,13 @@ import numpy as np
 from app.utils import readDataFromCSV
 from app.gradient_descent import GradientDescent
 
-def generateTestData():
-
-    features = [
-        'Mileage',
-        'Engine Size',
-    ]
-
-    label = 'Price'
+def generateTestData(features, label):
 
     csv = 'Car_Price_Prediction.csv'
 
     x, y = readDataFromCSV(csv, features, label)
 
-    return x, y, features, label
+    return x, y
 
 if (__name__) == '__main__':
      
