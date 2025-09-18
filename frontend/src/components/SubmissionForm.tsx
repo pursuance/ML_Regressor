@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from 'zod'
+import { z, ZodObject } from 'zod'
 
 import { getGradientData } from "@/services/api"
 import { useDataStore, useFinalParametersStore } from "@/store"
@@ -12,46 +12,79 @@ import { Input } from "@/components/ui/input"
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form"
 
-const formSchema = z.object({
-	w_init: z.string(),
-	b_init: z.coerce.number<string>(),
-	alpha: z.coerce.number<string>(),
-	num_iterations: z.coerce.number<string>().int()
-})
-
 const SubmissionForm = () => {
-
-	const form = useForm({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			w_init: '0, 0',
-			b_init: '0',
-			alpha: '0.01',
-			num_iterations: '1000',
-		}
-	})
 
 	const { data } = useDataStore()
 	const { setFinalParameters } = useFinalParametersStore()
 
-	const onSubmit = async (values: z.infer<typeof formSchema>) => {		
+	const buildDynamicSchema = (features: string[]): ZodObject<any> => {
+
+		const baseSchema = z.object({
+			b_init: z.coerce.number<string>(),
+			alpha: z.coerce.number<string>(),
+			num_iterations: z.coerce.number<string>().int()
+		})
+
+		const dynamicFields = features.reduce((acc, _, index) => {
+			acc[`w_init_${index}`] = z.coerce.number<string>()
+			return acc
+		}, {} as Record<string, z.ZodTypeAny>)
+
+		const formSchema = baseSchema.extend(dynamicFields)
+
+		return formSchema
+	}
+
+
+	const form = useForm({
+		resolver: zodResolver(buildDynamicSchema(data?.features!)),
+		defaultValues: {
+			b_init: '0',
+			alpha: '0.01',
+			num_iterations: '1000',
+			...data?.features.reduce((acc, _, index) => {
+				acc[`w_init_${index}`] = '0'
+				return acc
+			}, {} as Record<string, string>)
+		}
+	})
+
+	const onSubmit = async (values: z.infer<ReturnType<typeof buildDynamicSchema>>) => {		
 		try {
+			const extractWInitArray = (formData: Record<string, any>): number[] => {
+				const wInitKeys = Object.keys(formData).filter(key => key.startsWith('w_init_'))
+
+				wInitKeys.sort((a, b) => {
+					const indexA = parseInt(a.split("_")[2], 10)
+					const indexB = parseInt(b.split("_")[2], 10)
+					return indexA - indexB
+				})
+
+				const wInitArray = wInitKeys.map(key => parseFloat(formData[key]))
+
+				return wInitArray
+			}
+
+			const wInitArray = extractWInitArray(values)
+
 			const parsedValues = {
-				...values,
-				w_init: values.w_init.split(",").map(Number),
+				w_init: wInitArray,
+				b_init: values.b_init,
+				alpha: values.alpha,
+				num_iterations: values.num_iterations,
 				features: data?.features,
 				label: data?.label
 			}
+			const numIterations = values.num_iterations as number
 			const finalValues = await getGradientData(parsedValues)
 			console.log("API Response:", finalValues)
-			setFinalParameters(finalValues.final_w, finalValues.final_b, values.num_iterations, finalValues.J_history)
+			setFinalParameters(finalValues.final_w, finalValues.final_b, numIterations, finalValues.J_history)
 		} catch (error) {
 			console.error("Error while submitting data:", error)
 		}
@@ -61,23 +94,23 @@ const SubmissionForm = () => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				<FormField
-					{ ...form.register('w_init') }
-					name="w_init"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Initial w</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormDescription>
-								Enter initial weights as a comma-separated list.
-							</FormDescription>
-							<FormMessage />
-						</FormItem>
-						
-					)}
-				/>
+				{data?.features.map((feature, index) => 
+					<FormField
+						{ ...form.register(`w_init_${index}`) }
+						name={`w_init_${index}`}
+						key={index}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>w{index}: {feature}</FormLabel>
+								<FormControl>
+									<Input {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+							
+						)}
+					/>
+				)}
 				<FormField
 					{ ...form.register('b_init') }
 					name="b_init"
