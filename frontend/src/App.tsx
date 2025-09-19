@@ -3,15 +3,20 @@ import ColumnSelectionComponent from "./components/ColumnSelectionComponent"
 import DataSelectionComponent from "./components/DataSelectionComponent"
 import { useDataStore } from "./store"
 import CSVReader from "@/components/CSVReader"
+import CSV_Viewer from "./components/CSV_Viewer"
 
 function App() {
 
   const { data } = useDataStore()
 
   return (
-    <div className="border-1 m-8 rounded-md">
-     <CSVReader /> 
-    </div>
+    <>
+    {!data ?
+      <CSVReader /> 
+      :
+      <CSV_Viewer />
+    }
+    </>
   )
 }
 
