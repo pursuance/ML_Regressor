@@ -1,5 +1,27 @@
 import { create } from 'zustand'
 
+interface SelectionsState {
+  features: string[];
+  label: string;
+  selectionComplete: boolean;
+  setSelections: (features: string[], label: string) => void;
+  setSelectionsComplete: (selectionsComplete: boolean) => void;
+}
+
+export const useSelectionsState = create<SelectionsState>((set) => ({
+  features: [],
+  label: '',
+  selectionComplete: false,
+  setSelections: (features, label) => 
+    set(() => ({
+      features, label
+    })),
+  setSelectionsComplete: () => 
+    set(() => ({
+      selectionComplete: true
+    }))
+}))
+
 interface FinalParametersState {
   final_w: number[];
   final_b: number | null;
@@ -23,13 +45,13 @@ export const useFinalParametersStore = create<FinalParametersState>((set) => ({
 }))
 
 interface DataState {
-  data: CSVData | null;
-  setData: (data: CSVData) => void;
+  data: any[][] | null;
+  setData: (data: any[][]) => void;
 }
 
 export const useDataStore = create<DataState>((set) => ({
   data: null,
-  setData: (newData: CSVData) => 
+  setData: (newData: any[][]) => 
     set(() => ({
       data: newData
     }))
