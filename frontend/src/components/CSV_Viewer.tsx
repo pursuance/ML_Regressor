@@ -7,12 +7,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { useDataStore } from "@/store"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 const CSV_Viewer = () => {
   const { data } = useDataStore()
 
   const TableHeads = data![0].map((header, index) => 
-    <TableHead key={index}>{header}</TableHead>
+    <TableHead className="font-bold" key={index}>{header}</TableHead>
   )
 
   const TableRows = data!.slice(1).map((dataArray, index) =>
@@ -24,16 +25,20 @@ const CSV_Viewer = () => {
   )
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {TableHeads}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {TableRows}
-      </TableBody>
-    </Table>
+    <div className="flex justify-center items-center h-2/3">
+      <ScrollArea className="h-128 w-2/3 rounded-md border">
+          <Table>
+            <TableHeader className="sticky top-0 bg-white">
+              <TableRow>
+                {TableHeads}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {TableRows}
+            </TableBody>
+          </Table>
+      </ScrollArea>
+    </div>
   )
 }
 
