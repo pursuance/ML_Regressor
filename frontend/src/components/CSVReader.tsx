@@ -93,6 +93,7 @@ export default function CSVReader() {
   const parseResults = (results: RawCSVFile) => {
     const { data } = results
     setData(data)
+    localStorage.setItem('data', JSON.stringify(data))
     console.log(data)
   }
 
