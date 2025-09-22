@@ -26,8 +26,8 @@ const CSV_Viewer = () => {
 
   return (
     <div className="flex justify-center items-center h-2/3">
-      <ScrollArea className="h-128 w-2/3 rounded-md border">
-          <Table>
+      <ScrollArea className="h-128 w-2/3 rounded-md border overflow-y-auto">
+          <Table isScrollable>
             <TableHeader className="sticky top-0 bg-white">
               <TableRow>
                 {TableHeads}
