@@ -4,7 +4,7 @@ interface SelectionsState {
   features: string[];
   label: string;
   selectionComplete: boolean;
-  setSelections: (features: string[], label: string) => void;
+  setSelections: (updates: PartialSelectionState) => void;
   setSelectionsComplete: (selectionsComplete: boolean) => void;
 }
 
@@ -12,9 +12,10 @@ export const useSelectionsState = create<SelectionsState>((set) => ({
   features: [],
   label: '',
   selectionComplete: false,
-  setSelections: (features, label) => 
-    set(() => ({
-      features, label
+  setSelections: (updates) => 
+    set((state) => ({
+      ...state,
+      ...updates
     })),
   setSelectionsComplete: () => 
     set(() => ({

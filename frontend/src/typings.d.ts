@@ -3,3 +3,5 @@ interface RawCSVFile {
   errors: [];
   meta: [];
 }
+
+type PartialSelectionState = Partial<SelectionsState>

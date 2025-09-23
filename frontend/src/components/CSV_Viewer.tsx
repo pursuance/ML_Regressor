@@ -8,12 +8,18 @@ import {
 } from "@/components/ui/table"
 import { useDataStore } from "@/store"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import FeatureAndLabelButtons from "./FeatureAndLabelButtons"
 
 const CSV_Viewer = () => {
   const { data } = useDataStore()
 
   const TableHeads = data![0].map((header, index) => 
-    <TableHead className="font-bold" key={index}>{header}</TableHead>
+    <TableHead className="font-bold" key={index}>
+      <div>
+        {header}
+        <FeatureAndLabelButtons col={header} />
+      </div>
+    </TableHead>
   )
 
   const TableRows = data!.slice(1).map((dataArray, index) =>
