@@ -3,24 +3,17 @@ import { create } from 'zustand'
 interface SelectionsState {
   features: string[];
   label: string;
-  selectionComplete: boolean;
   setSelections: (updates: PartialSelectionState) => void;
-  setSelectionsComplete: (selectionsComplete: boolean) => void;
 }
 
 export const useSelectionsState = create<SelectionsState>((set) => ({
   features: [],
   label: '',
-  selectionComplete: false,
   setSelections: (updates) => 
     set((state) => ({
       ...state,
       ...updates
     })),
-  setSelectionsComplete: () => 
-    set(() => ({
-      selectionComplete: true
-    }))
 }))
 
 interface FinalParametersState {

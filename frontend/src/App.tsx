@@ -1,9 +1,7 @@
-import ChartComponent from "./components/ChartComponent"
-import DataSelectionComponent from "./components/DataSelectionComponent"
 import { useDataStore } from "./store"
 import CSVReader from "@/components/CSVReader"
-import CSV_Viewer from "./components/CSV_Viewer"
 import { useEffect } from "react"
+import DataSelected from "./components/DataSelected"
 
 function App() {
 
@@ -18,11 +16,11 @@ function App() {
 
   return (
     <>
-    {!data ?
-      <CSVReader /> 
-      :
-      <CSV_Viewer />
-    }
+      {!data ?
+        <CSVReader /> 
+        :
+        <DataSelected />
+      }
     </>
   )
 }

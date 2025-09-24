@@ -9,9 +9,10 @@ const SelectionsDisplay = () => {
     } else return features[0]
   }
 
-  if (features || label){
+
+  if (features.length > 0 || label){
     return (
-      <div>
+      <div className="self-start">
         <p>
           Features: {listFeatures(features)}
         </p>
