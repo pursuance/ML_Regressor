@@ -6,7 +6,7 @@ interface SelectionsState {
   setSelections: (updates: PartialSelectionState) => void;
 }
 
-export const useSelectionsState = create<SelectionsState>((set) => ({
+export const useSelectionsStore = create<SelectionsState>((set) => ({
   features: [],
   label: '',
   setSelections: (updates) => 

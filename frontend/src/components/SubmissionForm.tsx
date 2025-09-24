@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { z, ZodObject } from 'zod'
 
 import { getGradientData } from "@/services/api"
-import { useDataStore, useFinalParametersStore } from "@/store"
+import { useDataStore, useFinalParametersStore, useSelectionsStore } from "@/store"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ import {
 const SubmissionForm = () => {
 
 	const { data } = useDataStore()
-	
+	const { features, label } = useSelectionsStore()
 	const { setFinalParameters } = useFinalParametersStore()
 
 	const buildDynamicSchema = (features: string[]): ZodObject<any> => {

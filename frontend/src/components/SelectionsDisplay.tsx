@@ -1,7 +1,7 @@
-import { useSelectionsState } from "../store"
+import { useSelectionsStore } from "../store"
 
 const SelectionsDisplay = () => {
-  const { features, label } = useSelectionsState()
+  const { features, label } = useSelectionsStore()
 
   const listFeatures = (features: string[]) => {
     if (features.length > 1) {

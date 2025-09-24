@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { useSelectionsState } from "@/store"
+import { useSelectionsStore } from "@/store"
 
 const FeatureAndLabelButtons = ({ col }: { col: string }) => {
 
-  const { features, label, setSelections } = useSelectionsState()
+  const { features, label, setSelections } = useSelectionsStore()
 
   const onFeatureClick = () => {
     if (!features.includes(col)) {
