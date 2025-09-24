@@ -44,12 +44,12 @@ const SubmissionForm = () => {
 
 
 	const form = useForm({
-		resolver: zodResolver(buildDynamicSchema(data?.features!)),
+		resolver: zodResolver(buildDynamicSchema(features!)),
 		defaultValues: {
 			b_init: '0',
 			alpha: '0.01',
 			num_iterations: '1000',
-			...data?.features.reduce((acc, _, index) => {
+			...features.reduce((acc, _, index) => {
 				acc[`w_init_${index}`] = '0'
 				return acc
 			}, {} as Record<string, string>)
@@ -79,8 +79,8 @@ const SubmissionForm = () => {
 				b_init: values.b_init,
 				alpha: values.alpha,
 				num_iterations: values.num_iterations,
-				features: data?.features,
-				label: data?.label
+				features: features,
+				label: label
 			}
 			const numIterations = values.num_iterations as number
 			const finalValues = await getGradientData(parsedValues)
@@ -95,7 +95,7 @@ const SubmissionForm = () => {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				{data?.features.map((feature, index) => 
+				{features.map((feature, index) => 
 					<FormField
 						{ ...form.register(`w_init_${index}`) }
 						name={`w_init_${index}`}
