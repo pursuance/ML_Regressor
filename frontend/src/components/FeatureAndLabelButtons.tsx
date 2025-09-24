@@ -16,9 +16,9 @@ const FeatureAndLabelButtons = ({ col }: { col: string }) => {
   const onLabelClick = () => {
     if (label !== col) {
       setSelections({ 
-        label: col, 
-        features: features.filter(feature => feature !== col) 
-      }) //change label selection, and remove feature
+        label: col, //change label selection
+        features: features.filter(feature => feature !== col) //remove feature selection
+      }) 
 
     } else {
       setSelections({ label: '' }) //remove label selection

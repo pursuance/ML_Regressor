@@ -9,6 +9,7 @@ import {
 import { useDataStore } from "@/store"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import FeatureAndLabelButtons from "./FeatureAndLabelButtons"
+import SelectionsDisplay from "@/components/SelectionsDisplay"
 
 const CSV_Viewer = () => {
   const { data } = useDataStore()
@@ -31,7 +32,7 @@ const CSV_Viewer = () => {
   )
 
   return (
-    <div className="flex justify-center items-center h-2/3">
+    <div className="flex flex-col justify-center items-center h-2/3">
       <ScrollArea className="h-128 w-2/3 rounded-md border overflow-y-auto">
           <Table isScrollable>
             <TableHeader className="sticky top-0 bg-white">
@@ -44,6 +45,7 @@ const CSV_Viewer = () => {
             </TableBody>
           </Table>
       </ScrollArea>
+      <SelectionsDisplay />
     </div>
   )
 }
