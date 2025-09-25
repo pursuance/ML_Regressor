@@ -2,8 +2,7 @@ const parseColumn = (data: any[][], col: string) => {
   const colIndex = data[0].indexOf(col)
 
   const colData = data.slice(1).map(row => row[colIndex])  
-
-  return colData
+  return colData.map(Number)
 }
 
 export const parseFeatures = (data: any[][], features: string[]) => {

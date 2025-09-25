@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
 from app.gradient_descent import GradientDescent
-from app.test import generateTestData
+import numpy as np
 
 bp = Blueprint('main', __name__)
 
@@ -9,16 +9,14 @@ def train_model():
     try:
         data = request.json
 
-        # x = np.array(data['x'])
-        # y = np.array(data['y'])
+        x = np.array(data['x']).T
+        y = np.array(data['y'])
         w_init = data['w_init']
         b_init = data['b_init']
         iterations = data['num_iterations']
         alpha = data['alpha']
         features = data['features']
         label = data['label']
-
-        x, y = generateTestData(features, label)
         
         gd = GradientDescent(x, y, w_init, b_init, iterations, alpha, features, label, verbose=False)
         return jsonify({

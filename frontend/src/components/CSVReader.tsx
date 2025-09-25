@@ -92,9 +92,15 @@ export default function CSVReader() {
 
   const parseResults = (results: RawCSVFile) => {
     const { data } = results
+    if (data[data.length - 1][0] === '') {
+      data.pop() //remove last row if it's empty
+    }
     setData(data)
     localStorage.setItem('data', JSON.stringify(data))
-    console.log(data)
+  }
+
+  const parserOptions = {
+    skipEmptyLines: true,
   }
 
   return (
@@ -112,6 +118,7 @@ export default function CSVReader() {
         setZoneHover(false);
       }}
       noClick
+      parserOptions={parserOptions}
     >
       {({
         getRootProps,

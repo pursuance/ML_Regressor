@@ -40,12 +40,12 @@ export const useFinalParametersStore = create<FinalParametersState>((set) => ({
 
 interface DataState {
   data: any[][] | null;
-  setData: (data: any[][]) => void;
+  setData: (data: any[][] | null) => void;
 }
 
 export const useDataStore = create<DataState>((set) => ({
   data: null,
-  setData: (newData: any[][]) => 
+  setData: (newData: any[][] | null) => 
     set(() => ({
       data: newData
     }))

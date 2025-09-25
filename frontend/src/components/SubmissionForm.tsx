@@ -85,6 +85,7 @@ const SubmissionForm = () => {
 				features,
 				label
 			}
+			console.log(parsedValues)
 			const numIterations = values.num_iterations as number
 			const finalValues = await getGradientData(parsedValues)
 			console.log("API Response:", finalValues)
