@@ -3,10 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z, ZodObject } from 'zod'
-
+import { parseFeatures, parseLabel } from "@/utils/parseData"
 import { getGradientData } from "@/services/api"
 import { useDataStore, useFinalParametersStore, useSelectionsStore } from "@/store"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -73,14 +72,18 @@ const SubmissionForm = () => {
 			}
 
 			const wInitArray = extractWInitArray(values)
+			const x = parseFeatures(data!, features)
+			const y = parseLabel(data!, label)
 
 			const parsedValues = {
+				x,
+				y,
 				w_init: wInitArray,
 				b_init: values.b_init,
 				alpha: values.alpha,
 				num_iterations: values.num_iterations,
-				features: features,
-				label: label
+				features,
+				label
 			}
 			const numIterations = values.num_iterations as number
 			const finalValues = await getGradientData(parsedValues)
