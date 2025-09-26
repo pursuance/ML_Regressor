@@ -158,7 +158,7 @@ const SubmissionForm = () => {
 						
 					)}
 				/>
-				<Button className="cursor-pointer" type="submit">Submit</Button>
+				<Button className="cursor-pointer" type="submit">Train Model</Button>
 			</form>
 		</Form>
 	)
