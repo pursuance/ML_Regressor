@@ -79,9 +79,11 @@ export default function MLRegressionApp() {
                       <CSVReader />
                     </div>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4">Or Try Sample Data</h3>
-                    <SelectSampleData />
+                 <div className="flex flex-col gap-2">
+                    <h3 className="text-lg font-semibold mb-6">Or Try Sample Data</h3>
+                    <div className="mt-4">
+                      <SelectSampleData />
+                    </div>
                   </div>
                 </div>
               </CardContent>

@@ -1,37 +1,36 @@
-import sample_data from '@/sample_data.json' with { type: 'json'}
-import { Button } from './ui/button'
-import { useDataStore } from '@/store'
+"use client"
+
+import sample_data from "@/sample_data.json"
+import { Button } from "./ui/button"
+import { useDataStore } from "@/store"
 
 const SelectSampleData = () => {
-
   const SampleDataCard = ({ data }: { data: CSVData }) => {
-    const name = data.name.replace(/_/g, " ").replace('.csv', "")
+    const name = data.name.replace(/_/g, " ").replace(".csv", "")
 
     const { setData } = useDataStore()
 
     const onClick = () => {
-      setData(data)
+      setData(data.data)
     }
-    
+
     return (
-      <Button asChild variant='ghost' onClick={onClick} className='cursor-pointer'>
-          <div className='flex flex-col items-center gap-1 w-30 h-30 wrap-normal border-1 rounded-md p-2 text-center'>
-            { name }
-            <img src="/file-csv-solid-full.svg" height={48} width={48} alt='CSV Icon' />
-          </div> 
+      <Button variant="ghost" onClick={onClick} className="cursor-pointer">
+        <div className="flex flex-col items-center gap-2 w-32 h-32 text-center p-4 border rounded-lg hover:bg-accent">
+          <div className="text-2xl">📊</div>
+          <span className="text-sm font-medium">{name}</span>
+        </div>
       </Button>
     )
   }
 
   return (
-      <>
-        <div>
-          { sample_data.map((data, index) => 
-            <SampleDataCard data={{ ...data, features: [], selectionComplete: false }} key={index} />
-          )}
-        </div>
-      </>
-    )
+    <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+      {sample_data.map((data, index) => (
+        <SampleDataCard data={{ ...data, features: [], selectionComplete: false }} key={index} />
+      ))}
+    </div>
+  )
 }
 
 export default SelectSampleData
