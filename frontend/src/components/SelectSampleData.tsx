@@ -12,6 +12,7 @@ const SelectSampleData = () => {
 
     const onClick = () => {
       setData(data.data)
+      localStorage.setItem('data', JSON.stringify(data.data))
     }
 
     return (
