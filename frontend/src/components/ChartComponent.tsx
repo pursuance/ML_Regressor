@@ -10,11 +10,9 @@ const ChartComponent = () => {
   return (
     <>
       <div className="flex flex-row">
-        <div className="w-1/2">
           <Suspense fallback={<p>Loading...</p>}>
             {J_history.length > 0 && <Chart />}
           </Suspense>
-        </div>
       </div>
     </>
   )
