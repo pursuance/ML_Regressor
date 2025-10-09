@@ -2,33 +2,19 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 import { useDataStore } from "@/store"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import FeatureAndLabelButtons from "./FeatureAndLabelButtons"
+import TableHeadWithButtons from "./TableHeadWithButtons"
 
 const CSV_Viewer = () => {
   const { data } = useDataStore()
 
-  const TableHeads = data![0].map((header, index) => 
-    <TableHead className="font-bold" key={index}>
-      <div>
-        {header}
-        <FeatureAndLabelButtons col={header} />
-      </div>
-    </TableHead>
-  )
+  const tableHeaders = data?.[0] || []
 
-  const TableRows = data!.slice(1).map((dataArray, index) =>
-    <TableRow key={index}>
-      {dataArray.map((data, index) =>
-        <TableCell key={index}>{data}</TableCell>
-      )}
-    </TableRow>
-  )
+  const tableRows = data?.slice(1) || []
 
   return (
     <div className="flex flex-col justify-center items-center h-2/3">
@@ -36,11 +22,19 @@ const CSV_Viewer = () => {
           <Table isScrollable>
             <TableHeader className="sticky top-0 bg-white">
               <TableRow>
-                {TableHeads}
+                {tableHeaders.map((header) => (
+                  <TableHeadWithButtons key={header} header={header} />
+                ))}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {TableRows}
+              {tableRows.map((dataArray, index) =>
+                <TableRow key={index}>
+                  {dataArray.map((cell, cellIndex) =>
+                    <TableCell key={cellIndex}>{cell}</TableCell>
+                  )}
+                </TableRow>
+              )}
             </TableBody>
           </Table>
       </ScrollArea>

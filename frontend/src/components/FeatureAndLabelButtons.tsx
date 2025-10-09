@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button"
 import { useSelectionsStore } from "@/store"
+import { memo, useCallback } from "react"
 
 const FeatureAndLabelButtons = ({ col }: { col: string }) => {
 
   const { features, label, setSelections } = useSelectionsStore()
 
-  const onFeatureClick = () => {
+  const onFeatureClick = useCallback(() => {
     if (!features.includes(col)) {
       setSelections({ features: [...features, col] }) //add feature to features array
     } else {
       setSelections({ features: features.filter(feature => feature !== col) }) //remove feature from array
     }
-  }
+  }, [features, col, setSelections ])
 
-  const onLabelClick = () => {
+  const onLabelClick = useCallback(() => {
     if (label !== col) {
       setSelections({ 
         label: col, //change label selection
@@ -23,7 +24,7 @@ const FeatureAndLabelButtons = ({ col }: { col: string }) => {
     } else {
       setSelections({ label: '' }) //remove label selection
     }
-  }
+  }, [label, col, setSelections])
 
   return (
     <div className="flex gap-1">
@@ -46,4 +47,4 @@ const FeatureAndLabelButtons = ({ col }: { col: string }) => {
   )
 }
 
-export default FeatureAndLabelButtons
+export default memo(FeatureAndLabelButtons)
