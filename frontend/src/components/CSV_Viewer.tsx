@@ -1,13 +1,13 @@
 import {
   Table,
   TableBody,
-  TableCell,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 import { useDataStore } from "@/store"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import TableHeadWithButtons from "./TableHeadWithButtons"
+import TableDataRow from "./TableDataRow"
 
 const CSV_Viewer = () => {
   const { data } = useDataStore()
@@ -29,11 +29,7 @@ const CSV_Viewer = () => {
             </TableHeader>
             <TableBody>
               {tableRows.map((dataArray, index) =>
-                <TableRow key={index}>
-                  {dataArray.map((cell, cellIndex) =>
-                    <TableCell key={cellIndex}>{cell}</TableCell>
-                  )}
-                </TableRow>
+                <TableDataRow dataArray={dataArray} index={index} />
               )}
             </TableBody>
           </Table>
