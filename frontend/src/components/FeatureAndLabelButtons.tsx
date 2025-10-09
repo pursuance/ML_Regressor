@@ -24,7 +24,7 @@ const FeatureAndLabelButtons = ({ col }: { col: string }) => {
     } else {
       setSelections({ label: '' }) //remove label selection
     }
-  }, [label, col, setSelections])
+  }, [label, col, features, setSelections])
 
   return (
     <div className="flex gap-1">
