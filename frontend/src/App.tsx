@@ -144,7 +144,7 @@ export default function MLRegressionApp() {
                 <CardContent>
                   {J_history.length > 0 ? (
                     <div className="space-y-4">
-                      <div>
+                      <div className="h-96">
                         <ChartComponent />
                       </div>
                       <div className="grid grid-cols-2 gap-4 text-sm">

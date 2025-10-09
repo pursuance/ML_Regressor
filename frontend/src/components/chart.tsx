@@ -25,7 +25,6 @@ ChartJS.register(
   Legend
 );
 
-ChartJS.defaults.color = '#000000'
 
 const Chart = () => {
   const chartRef = useRef<HTMLCanvasElement | null>(null)
@@ -83,8 +82,8 @@ const Chart = () => {
                 x: iteration,
                 y: J_history[index],
               })),
-              backgroundColor: 'black',
-              borderColor: 'black',
+              backgroundColor: 'blue',
+              borderColor: 'blue',
               borderWidth: 2,
               showLine: true,
               fill: false,
@@ -110,23 +109,7 @@ const Chart = () => {
                 display: true,
                 text: 'Number of Iterations',
               },
-              grid: {
-                display: false,
-              },
-              ticks: {
-                autoSkip: false,
-                callback: function(value: number | string) {
-                  if (typeof(value) !== "number") return
-                  const step = Math.floor(num_iterations / 10)
-                  if (value % step === 0 && value !== 0) {
-                    return this.getLabelForValue(value - 1)
-                  }
-                  if (value + 1 === num_iterations) {
-                    return this.getLabelForValue(value)
-                  }
-                return ''
-                }
-              }
+              beginAtZero: true,
             },
             y: {
               title: {
@@ -134,9 +117,6 @@ const Chart = () => {
                 text: "Cost",
               },
               beginAtZero: true,
-              grid: {
-                display: false,
-              },
             },
           },
           animation,
