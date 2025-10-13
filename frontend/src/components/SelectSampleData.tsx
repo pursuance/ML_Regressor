@@ -16,8 +16,8 @@ const SelectSampleData = () => {
     }
 
     return (
-      <Button variant="ghost" onClick={onClick} className="cursor-pointer">
-        <div className="flex flex-col items-center gap-2 w-32 h-32 text-center p-4 border rounded-lg hover:bg-accent">
+      <Button asChild variant="ghost" onClick={onClick} className="cursor-pointer">
+        <div className="group flex flex-col items-center gap-2 w-32 h-32 text-center p-4 border rounded-lg hover:bg-accent">
           <div className="text-2xl">📊</div>
           <span className="text-sm font-medium">{name}</span>
         </div>
