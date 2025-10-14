@@ -43,13 +43,14 @@ export default function MLRegressionApp() {
         {/* Navigation */}
         <div className="mb-8">
           <div className="flex gap-2">
-            <Button variant={currentView === "upload" ? "default" : "outline"} onClick={() => setCurrentView("upload")}>
+            <Button className="cursor-pointer" variant={currentView === "upload" ? "default" : "outline"} onClick={() => setCurrentView("upload")}>
               1. Upload Data
             </Button>
             <Button
               variant={currentView === "data" ? "default" : "outline"}
               onClick={() => setCurrentView("data")}
               disabled={!canProceedToData}
+              className="cursor-pointer"
             >
               2. Select Features and Target
             </Button>
@@ -57,6 +58,7 @@ export default function MLRegressionApp() {
               variant={currentView === "train" ? "default" : "outline"}
               onClick={() => setCurrentView("train")}
               disabled={!canProceedToTrain}
+              className="cursor-pointer"
             >
               3. Train Model
             </Button>
@@ -91,7 +93,7 @@ export default function MLRegressionApp() {
 
             {canProceedToData && (
               <div className="text-center">
-                <Button onClick={() => setCurrentView("data")} size="lg">
+                <Button className="cursor-pointer" onClick={() => setCurrentView("data")} size="lg">
                   Proceed to Feature Selection →
                 </Button>
               </div>
@@ -115,7 +117,7 @@ export default function MLRegressionApp() {
 
             {canProceedToTrain && (
               <div className="text-center">
-                <Button onClick={() => setCurrentView("train")} size="lg">
+                <Button className="cursor-pointer" onClick={() => setCurrentView("train")} size="lg">
                   Proceed to Model Training →
                 </Button>
               </div>
