@@ -27,6 +27,12 @@ export default function MLRegressionApp() {
     }
   }, [])
 
+  useEffect(() => {
+    if (data) {
+      setCurrentView('data')
+    }
+  }, [data])
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -44,7 +50,7 @@ export default function MLRegressionApp() {
         <div className="mb-8">
           <div className="flex gap-2">
             <Button className="cursor-pointer" variant={currentView === "upload" ? "default" : "outline"} onClick={() => setCurrentView("upload")}>
-              1. Upload Data
+              1. Select Data
             </Button>
             <Button
               variant={currentView === "data" ? "default" : "outline"}
