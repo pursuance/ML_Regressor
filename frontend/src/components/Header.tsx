@@ -1,4 +1,4 @@
-import { Brain, Github, Settings } from "lucide-react"
+import { Brain, Github, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
