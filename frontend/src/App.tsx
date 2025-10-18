@@ -150,11 +150,11 @@ export default function MLRegressionApp() {
                   <CardDescription>Cost function optimization over iterations</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  {J_history.length > 0 ? (
-                    <div className="space-y-4">
-                      <div>
-                        <ChartComponent />
-                      </div>
+                  <div className="space-y-4">
+                    <div>
+                      <ChartComponent />
+                    </div>
+                    {J_history.length > 0 &&
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
                           <h4 className="font-semibold mb-2">Final Weights:</h4>
@@ -170,12 +170,8 @@ export default function MLRegressionApp() {
                           {final_b && <p>b: {final_b.toFixed(4)}</p>}
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="text-center text-muted-foreground py-12">
-                      Configure parameters and click "Train Model" to see results
-                    </div>
-                  )}
+                    }
+                  </div>                    
                 </CardContent>
               </Card>
             </div>
