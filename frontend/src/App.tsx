@@ -10,12 +10,13 @@ import SelectSampleData from "@/components/SelectSampleData"
 import CSV_Viewer from "@/components/CSV_Viewer"
 import SubmissionForm from "@/components/SubmissionForm"
 import ChartComponent from "./components/ChartComponent"
+import FinalParams from "./components/FinalParams"
 
 export default function MLRegressionApp() {
   const [currentView, setCurrentView] = useState<"upload" | "data" | "train">("upload")
   const { data, setData } = useDataStore()
   const { features, label } = useSelectionsStore()
-  const { J_history, final_w, final_b } = useFinalParametersStore()
+  const { J_history, } = useFinalParametersStore()
 
   const canProceedToData = data && data.length > 0
   const canProceedToTrain = canProceedToData && features.length > 0 && label
@@ -155,21 +156,7 @@ export default function MLRegressionApp() {
                       <ChartComponent />
                     </div>
                     {J_history.length > 0 &&
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <h4 className="font-semibold mb-2">Final Weights:</h4>
-                          {final_w &&
-                            final_w.map((w, index) => (
-                              <p key={index}>
-                                w{index} ({features[index]}): {w.toFixed(4)}
-                              </p>
-                            ))}
-                        </div>
-                        <div>
-                          <h4 className="font-semibold mb-2">Final Bias:</h4>
-                          {final_b && <p>b: {final_b.toFixed(4)}</p>}
-                        </div>
-                      </div>
+                      <FinalParams />
                     }
                   </div>                    
                 </CardContent>
