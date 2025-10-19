@@ -1,4 +1,5 @@
 import { useFinalParametersStore, useSelectionsStore } from "@/store"
+import { InlineMath } from 'react-katex'
 
 
 const FinalParams = () => {
