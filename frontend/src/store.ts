@@ -21,6 +21,8 @@ interface FinalParametersState {
   final_b: number | null;
   J_history: number[];
   num_iterations: number;
+  isLoading: boolean;
+  setIsLoading: (loadingStatus: boolean) => void;
   setFinalParameters: (finalW: number[], finalB: number | null, num_iterations: number, J_history: number[]) => void;
 }
 
@@ -29,6 +31,10 @@ export const useFinalParametersStore = create<FinalParametersState>((set) => ({
   final_b: null,
   J_history: [],
   num_iterations: 1000,
+  isLoading: false,
+  setIsLoading: (loadingStatus) => set(() => ({
+     isLoading: loadingStatus 
+  })),
   setFinalParameters: (finalW, finalB, num_iterations, J_history) =>
     set(() => ({
       final_w: finalW,

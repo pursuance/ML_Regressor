@@ -21,7 +21,7 @@ const SubmissionForm = () => {
 
 	const { data } = useDataStore()
 	const { features, label } = useSelectionsStore()
-	const { setFinalParameters } = useFinalParametersStore()
+	const { setFinalParameters, setIsLoading } = useFinalParametersStore()
 
 	const buildDynamicSchema = (features: string[]): ZodObject<any> => {
 
@@ -87,7 +87,9 @@ const SubmissionForm = () => {
 			}
 			console.log(parsedValues)
 			const numIterations = values.num_iterations as number
+			setIsLoading(true)
 			const finalValues = await getGradientData(parsedValues)
+			setIsLoading(false)
 			console.log("API Response:", finalValues)
 			setFinalParameters(finalValues.final_w, finalValues.final_b, numIterations, finalValues.J_history)
 		} catch (error) {
