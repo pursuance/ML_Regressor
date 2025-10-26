@@ -5,10 +5,10 @@ import 'katex/dist/katex.min.css'
 
 const FinalParams = () => {
 
-  const { final_w, final_b, J_history } = useFinalParametersStore()
+  const { final_w, final_b, } = useFinalParametersStore()
   const { features } = useSelectionsStore()
 
-  const final_model = `y = ${final_w.map((w,index) => `${w} x${index} `)} + ${final_b}`
+  const final_model = `\\hat{y} = ${final_w.map((w,index) => `${w.toFixed(2)} x_{${index}} + `).join('')}${final_b?.toFixed(2)}`
 
   return (
     <div className="grid grid-cols-2 gap-4 text-sm">
@@ -17,7 +17,10 @@ const FinalParams = () => {
         {final_w &&
           final_w.map((w, index) => (
             <p key={index}>
-              w{index} ({features[index]}): {w.toFixed(4)}
+              <TeX>
+                {`w_${index}`}
+              </TeX>
+              {' '}({features[index]}): {w.toFixed(4)}
             </p>
           ))}
       </div>
