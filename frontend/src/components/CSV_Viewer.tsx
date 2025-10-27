@@ -29,7 +29,7 @@ const CSV_Viewer = () => {
             </TableHeader>
             <TableBody>
               {tableRows.map((dataArray, index) =>
-                <TableDataRow dataArray={dataArray} index={index} />
+                <TableDataRow dataArray={dataArray} index={index} key={index} />
               )}
             </TableBody>
           </Table>
