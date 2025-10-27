@@ -1,5 +1,6 @@
 import Chart from "@/components/chart"
 import { useFinalParametersStore } from "@/store"
+import { Spinner } from "@/components/ui/spinner"
  
 
 const ChartComponent = () => {
@@ -9,7 +10,10 @@ const ChartComponent = () => {
   let content
 
   if (isLoading) {
-    content = <p>Loading...</p>
+    content = 
+    <div className="h-96 flex justify-center items-center">
+      <Spinner />
+    </div>
   } else if (J_history.length > 0) {
     content = <Chart />
   } else {
